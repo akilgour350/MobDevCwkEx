@@ -7,28 +7,35 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView android:id="@+id/salutation"
-            android:layout_width="fill_parent"
+        <Button
+            android:id="@+id/opensearch"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Welcome to Mobile Platform Development"/>
+            android:text="Open Search"
+            android:onClick="openSearch"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
 
-        <Button android:id="@+id/startButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Press to get data"/>
+        </Button>
+
+        <FrameLayout
+            android:id="@+id/searchPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </FrameLayout>
 
         <TextView android:id="@+id/acknowledgement"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Contains British Geological Survey materials ©NERC 2019"/>
-
-        <TextView android:id="@+id/rawDataDisplay"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Raw Data is Displayed here"/>
+            android:text="Contains British Geological Survey materials ©NERC 2023"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 </ScrollView>

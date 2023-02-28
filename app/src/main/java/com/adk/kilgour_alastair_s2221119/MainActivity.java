@@ -15,16 +15,18 @@
 package com.adk.kilgour_alastair_s2221119;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
@@ -33,8 +35,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
-    private String urlSource="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
-    private String result;
     private ArrayList<Earthquake> earthquakes;
 
     @Override
@@ -42,108 +42,53 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loadData();
+        loadData(); // calls method to get all the data for the app
     }
 
+    public void openSearch(View v) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.searchPlaceholder, new SearchFragment());
+        ft.commit();
 
+        Button opn = findViewById(R.id.opensearch);
+        ((ViewGroup) opn.getParent()).removeView(opn);
+    }
 
     // FOR GETTING DATA FROM SOURCE
     public void loadData()
     {
+        final String URL_SOURCE ="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
         // Run network access on a separate thread;
-        new Thread(new Task(urlSource)).start();
+        new Thread(new Task(URL_SOURCE)).start();
 
         try {
-            if (result != null && result != "") {
-                // PullParser Setup
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput( new StringReader( result ) );
 
-                int eventType = xpp.getEventType(); // initialise eventType variable to track which type of event the Parser is on
-                Earthquake quake = new Earthquake(); // creates Earthquake object to be populated
-                boolean building = false; // creates boolean to store whether an Earthquake object is being built
-
-                while (eventType != XmlPullParser.END_DOCUMENT) { // checks to ensure the Parser hasn't reach the end of the document
-
-                    if(eventType == XmlPullParser.START_TAG) // checks for an XML start tag (eg <myTag>)
-                    {
-                        if (xpp.getName().equals("lastBuildDate")) // allows app to display the date the data is from
-                        {
-                            // sets a TextView to display the date the data was published
-                            TextView txt = findViewById(R.id.salutation);
-                            xpp.next(); // moves to next event (will be TEXT)
-                            txt.setText("Last update: " + xpp.getText());
-
-                        } else if (xpp.getName().equals("item")) {
-                            quake = new Earthquake(); // initialises earthquake object
-                            building = true; // sets that an Earthquake object is being built
-
-                        } else if (xpp.getName().equals("title") && building) {
-                            xpp.next(); // moves to next event (will be TEXT)
-                            quake.setLocationRegion(xpp.getText()); // stores title of the earthquake
-
-                        } else if (xpp.getName().equals("description") && building) {
-                            xpp.next(); // moves to next event (will be TEXT)
-                            quake.setDepthMagnitude((xpp.getText())); // stores description of the earthquake
-
-                        } else if (xpp.getName().equals("pubDate") && building) {
-                            xpp.next(); // moves to next event (will be TEXT)
-                            quake.setDate(xpp.getText()); // stores date of the earthquake
-
-                        } else if (xpp.getName().equals("lat") && building) {
-                            xpp.next(); // moves to next event (will be TEXT)
-                            quake.setLatitude(xpp.getText()); // stores latitude of the earthquake
-
-                        } else if (xpp.getName().equals("long") && building) {
-                            xpp.next(); // moves to next event (will be TEXT)
-                            quake.setLongitude(xpp.getText()); // stores longitude of the earthquake
-
-                        }
-                    } else if (eventType == XmlPullParser.END_TAG) {
-                        if (xpp.getName().equals("item")) {
-                            float[] tempDist = new float[3];
-                            android.location.Location.distanceBetween(Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude()), 55.8642, 4.2518, tempDist);
-                            quake.setDistance((int)tempDist[0]);
-                            earthquakes.add(quake); // adds complete Earthquake object to ArrayList
-                            building = false; // sets that an Earthquake object is NOT being built
-                        }
-                    }
-                    eventType = xpp.next(); // moves to next event
-                }
-
-                System.out.println("All earthquakes read in.");
-
-            } else {
-                throw new Exception("Result was empty.");
-            }
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error: " + ex.getMessage());
         }
-
     }
-
     private class Task implements Runnable
     {
         private String url;
-        public Task(String aurl)
+        public Task(String myUrl)
         {
-            url = aurl;
+            url = myUrl;
         }
 
         @Override
         public void run()
         {
-            URL aurl;
+            URL myUrl;
             URLConnection yc;
-            BufferedReader in = null;
-            String inputLine = "";
+            BufferedReader in;
+            String inputLine;
+            String result = "";
+            earthquakes = new ArrayList<>();
 
             try
             {
-                aurl = new URL(url);
-                yc = aurl.openConnection();
+                myUrl = new URL(url);
+                yc = myUrl.openConnection();
                 in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
                 while ((inputLine = in.readLine()) != null)
                 {
@@ -152,10 +97,69 @@ public class MainActivity extends AppCompatActivity
 
                 }
                 in.close();
+
+                if (!result.equals("")) {
+                    // PullParser Setup
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    factory.setNamespaceAware(true);
+                    XmlPullParser xpp = factory.newPullParser();
+                    xpp.setInput( new StringReader( result ) );
+
+                    int eventType = xpp.getEventType(); // initialise eventType variable to track which type of event the Parser is on
+                    Earthquake quake = new Earthquake(); // creates Earthquake object to be populated
+                    boolean building = false; // creates boolean to store whether an Earthquake object is being built
+
+                    while (eventType != XmlPullParser.END_DOCUMENT) { // checks to ensure the Parser hasn't reach the end of the document
+
+                        if(eventType == XmlPullParser.START_TAG) // checks for an XML start tag (eg <myTag>)
+                        {
+                            if (xpp.getName().equals("item")) {
+                                quake = new Earthquake(); // initialises earthquake object
+                                building = true; // sets that an Earthquake object is being built
+
+                            } else if (xpp.getName().equals("title") && building) {
+                                xpp.next(); // moves to next event (will be TEXT)
+                                quake.setLocationRegion(xpp.getText()); // stores title of the earthquake
+
+                            } else if (xpp.getName().equals("description") && building) {
+                                xpp.next(); // moves to next event (will be TEXT)
+                                quake.setDepthMagnitude((xpp.getText())); // stores description of the earthquake
+
+                            } else if (xpp.getName().equals("pubDate") && building) {
+                                xpp.next(); // moves to next event (will be TEXT)
+                                quake.setDate(xpp.getText()); // stores date of the earthquake
+
+                            } else if (xpp.getName().equals("lat") && building) {
+                                xpp.next(); // moves to next event (will be TEXT)
+                                quake.setLatitude(xpp.getText()); // stores latitude of the earthquake
+
+                            } else if (xpp.getName().equals("long") && building) {
+                                xpp.next(); // moves to next event (will be TEXT)
+                                quake.setLongitude(xpp.getText()); // stores longitude of the earthquake
+
+                            }
+                        } else if (eventType == XmlPullParser.END_TAG) {
+                            if (xpp.getName().equals("item") && building) {
+                                float[] tempDist = new float[3];
+                                android.location.Location.distanceBetween(Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude()), 55.8642, 4.2518, tempDist);
+                                quake.setDistance((int)tempDist[0]);
+                                earthquakes.add(quake); // adds complete Earthquake object to ArrayList
+                                building = false; // sets that an Earthquake object is NOT being built
+                                System.out.println("Created earthquake: ");
+                                System.out.println("Location: " + quake.getLocality() + "," + quake.getRegion());
+                                System.out.println("Date: " + quake.getDate());
+                            }
+                        }
+                        eventType = xpp.next(); // moves to next event
+                    }
+                    System.out.println("Data parsed");
+                } else {
+                    throw new Exception("Result was empty.");
+                }
             }
-            catch (IOException ae)
+            catch (Exception ex)
             {
-                System.out.println(ae.getMessage());
+                System.out.println("Error: " + ex.getMessage());
             }
         }
 
