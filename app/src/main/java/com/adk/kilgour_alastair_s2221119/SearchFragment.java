@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class SearchFragment extends Fragment {
     @Override
@@ -18,11 +21,30 @@ public class SearchFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
         // sets values in Spinner used to select how to search
-        Spinner spn = v.findViewById(R.id.searchBy);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(), R.array.search_by_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spn.setAdapter(adapter);
+
 
         return v;
+    }
+
+    public void searchForInput(View v) {
+        try {
+            if (!v.findViewById(R.id.searchInput).equals("")) {
+                Spinner spn = v.findViewById(R.id.searchBy);
+                if (spn.getSelectedItem().toString().equals("Locality / Region")) {
+
+                } else if (spn.getSelectedItem().toString().equals("Date")) {
+
+                } else {
+                    throw new Exception("Invalid search type.");
+                }
+            } else {
+                Snackbar sb = Snackbar.make(v, "Please enter something to search by!", 3000);
+                sb.show();
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            Snackbar sb = Snackbar.make(v, "Something went wrong...", 3000);
+            sb.show();
+        }
     }
 }

@@ -17,11 +17,14 @@ package com.adk.kilgour_alastair_s2221119;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -43,15 +46,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadData(); // calls method to get all the data for the app
+
+        Spinner spn = findViewById(R.id.searchBy);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getApplicationContext(), R.array.search_by_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spn.setAdapter(adapter);
     }
 
-    public void openSearch(View v) {
+    public void searchForInput(View v) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.searchPlaceholder, new SearchFragment());
         ft.commit();
-
-        Button opn = findViewById(R.id.opensearch);
-        ((ViewGroup) opn.getParent()).removeView(opn);
     }
 
     // FOR GETTING DATA FROM SOURCE
@@ -60,12 +65,6 @@ public class MainActivity extends AppCompatActivity
         final String URL_SOURCE ="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
         // Run network access on a separate thread;
         new Thread(new Task(URL_SOURCE)).start();
-
-        try {
-
-        } catch (Exception ex) {
-            System.out.println("Error: " + ex.getMessage());
-        }
     }
     private class Task implements Runnable
     {
@@ -160,6 +159,8 @@ public class MainActivity extends AppCompatActivity
             catch (Exception ex)
             {
                 System.out.println("Error: " + ex.getMessage());
+                Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Something went wrong...", 3000);
+                sb.show();
             }
         }
 

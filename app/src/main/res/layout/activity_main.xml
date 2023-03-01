@@ -2,23 +2,40 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/opensearch"
+        <EditText
+            android:id="@+id/searchInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Open Search"
-            android:onClick="openSearch"
+            android:hint="Enter search..."
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp" />
 
-        </Button>
+        <Spinner
+            android:id="@+id/searchBy"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:id="@+id/searchQuakes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="searchForInput" />
 
         <FrameLayout
             android:id="@+id/searchPlaceholder"
