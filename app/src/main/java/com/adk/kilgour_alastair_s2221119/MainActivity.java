@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,41 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void searchForInput(View v) {
+        ArrayList<ResultQuake> results = new ArrayList<>();
+        EditText input = findViewById(R.id.searchInput);
+        String toSearch = input.getText().toString();
+
+        if (toSearch != "" && toSearch != null) {
+            Spinner spn = findViewById(R.id.searchBy);
+            String searchBy = spn.getSelectedItem().toString();
+
+            switch (searchBy) {
+                case "Locality / Region":
+                    for (int i = 0; i < earthquakes.size(); i++) {
+                        if (toSearch.contains(earthquakes.get(i).getLocality().toLowerCase()) && toSearch.contains(earthquakes.get(i).getRegion().toLowerCase())) {
+                            ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Exact);
+                            results.add(rq);
+                        } else if (toSearch.contains(earthquakes.get(i).getLocality().toLowerCase()) || toSearch.contains(earthquakes.get(i).getRegion().toLowerCase())) {
+                            ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Near);
+                            results.add(rq);
+                        }
+                    }
+                    break;
+
+                case "Date":
+                    System.out.println("Searching by date");
+                    break;
+
+                default:
+                    Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Invalid search type!", 3000);
+                    sb.show();
+            }
+        } else {
+            Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Enter search parameters!", 3000);
+            sb.show();
+        }
+
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.searchPlaceholder, new SearchFragment());
         ft.commit();

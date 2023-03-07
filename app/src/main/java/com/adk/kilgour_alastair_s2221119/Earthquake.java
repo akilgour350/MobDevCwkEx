@@ -85,3 +85,5 @@ public class Earthquake implements Serializable {
     public void setLongitude(String longitude) {this.Longitude = longitude; }
     public void setDistance(int distance) { this.Distance = distance; }
 }
+
+
