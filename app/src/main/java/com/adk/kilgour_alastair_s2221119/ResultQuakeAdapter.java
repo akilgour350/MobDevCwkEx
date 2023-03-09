@@ -15,8 +15,6 @@ public class ResultQuakeAdapter extends RecyclerView.Adapter<ResultQuakeViewHold
     ArrayList<ResultQuake> quakes;
     Context context;
 
-    private final View.OnClickListener mOnClickListener = new View.OnClickListener();
-
     public ResultQuakeAdapter(ArrayList<ResultQuake> quakes, Context context) {
         this.quakes = quakes;
         this.context = context;
