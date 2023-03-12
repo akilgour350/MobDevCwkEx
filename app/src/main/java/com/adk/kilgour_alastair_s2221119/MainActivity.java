@@ -74,6 +74,16 @@ public class MainActivity extends AppCompatActivity
                             results.add(rq);
                         }
                     }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("resultQuakes", results);
+                    SearchFragment sFrag = new SearchFragment();
+                    sFrag.setArguments(bundle);
+
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.searchPlaceholder, sFrag);
+                    ft.commit();
+
                     break;
 
                 case "Date":

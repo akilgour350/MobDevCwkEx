@@ -26,11 +26,21 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_search, container, false);
+        quakes = new ArrayList<>();
 
-        adapter = new ResultQuakeAdapter(quakes, getContext());
-        RecyclerView rv = getView().findViewById(R.id.rvSearchResults);
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        if (getArguments() != null) {
+            Bundle extras = getArguments();
+            quakes = extras.getParcelableArrayList("resultQuakes");
+
+            adapter = new ResultQuakeAdapter(quakes, getContext());
+            RecyclerView rv = v.findViewById(R.id.rvSearchResults);
+            rv.setAdapter(adapter);
+            rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        } else {
+            System.out.println("null quakes passed");
+        }
+
 
         return v;
     }

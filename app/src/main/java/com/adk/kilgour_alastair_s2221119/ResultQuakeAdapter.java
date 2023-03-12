@@ -22,43 +22,20 @@ public class ResultQuakeAdapter extends RecyclerView.Adapter<ResultQuakeViewHold
 
     @Override
     public ResultQuakeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context
-                = parent.getContext();
-        LayoutInflater inflater
-                = LayoutInflater.from(context);
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the layout
-
-        View quakeView
-                = inflater
-                .inflate(R.layout.resultquake_card,
-                        parent, false);
-
-        ResultQuakeViewHolder viewHolder
-                = new ResultQuakeViewHolder(quakeView);
+        View quakeView = inflater.inflate(R.layout.resultquake_card, parent, false);
+        ResultQuakeViewHolder viewHolder = new ResultQuakeViewHolder(quakeView);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder( ResultQuakeViewHolder holder, int position) {
-        holder.quakeDate
-                .setText(quakes.get(position).getQuake().getDate());
-        holder.quakeLocality
-                .setText(quakes.get(position).getQuake().getLocality());
-        holder.quakeRegion
-                .setText(quakes.get(position).getQuake().getRegion());
-
-        int index = holder.getAdapterPosition();
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                ResultQuake e = quakes.get(index); // gets the Earthquake this button is attributed with
-                //Intent moreInfo = new Intent(this, MoreInfoActivity.class);
-                //moreInfo.putExtra("selectedQuake", e);
-                //startActivity(moreInfo);
-            }
-        });
+        holder.quakeDate.setText(quakes.get(position).getQuake().getDate());
+        holder.quakeLocality.setText(quakes.get(position).getQuake().getLocality());
+        holder.quakeRegion.setText(quakes.get(position).getQuake().getRegion());
     }
 
     @Override
@@ -67,9 +44,7 @@ public class ResultQuakeAdapter extends RecyclerView.Adapter<ResultQuakeViewHold
     }
 
     @Override
-    public void onAttachedToRecyclerView(
-            RecyclerView recyclerView)
-    {
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 }
