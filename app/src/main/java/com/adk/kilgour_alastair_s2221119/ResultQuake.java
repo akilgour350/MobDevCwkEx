@@ -5,17 +5,32 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class ResultQuake implements Parcelable {
-    private Earthquake quake;
-    private Resemblance resemblance;
+import java.io.Serializable;
+
+public class ResultQuake implements Parcelable, Serializable {
+    public Earthquake quake;
+    public Resemblance resemblance;
 
     public ResultQuake(Earthquake eq, Resemblance r) {
         quake = eq;
         resemblance = r;
     }
 
-    public void setQuake(Earthquake eq) { quake = eq; }
-    public void setResemblance(Resemblance r) { resemblance = r; }
+    protected ResultQuake(Parcel in) {
+    }
+
+    public static final Creator<ResultQuake> CREATOR = new Creator<ResultQuake>() {
+        @Override
+        public ResultQuake createFromParcel(Parcel in) {
+            return new ResultQuake(in);
+        }
+
+        @Override
+        public ResultQuake[] newArray(int size) {
+            return new ResultQuake[size];
+        }
+    };
+
     public Earthquake getQuake() { return quake; }
     public Resemblance getResemblance() { return resemblance; }
 

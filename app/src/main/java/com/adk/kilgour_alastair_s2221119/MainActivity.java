@@ -14,7 +14,9 @@
 // Update the package name to include your Student Identifier
 package com.adk.kilgour_alastair_s2221119;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -36,6 +38,7 @@ import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     public void searchForInput(View v) {
         ArrayList<ResultQuake> results = new ArrayList<>();
         EditText input = findViewById(R.id.searchInput);
-        String toSearch = input.getText().toString();
+        String toSearch = input.getText().toString().toLowerCase();
 
         if (toSearch != "" && toSearch != null) {
             Spinner spn = findViewById(R.id.searchBy);
@@ -75,34 +78,44 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
 
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("resultQuakes", results);
-                    SearchFragment sFrag = new SearchFragment();
-                    sFrag.setArguments(bundle);
-
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.searchPlaceholder, sFrag);
-                    ft.commit();
-
                     break;
 
                 case "Date":
                     System.out.println("Searching by date");
+                    for (int i = 0; i < earthquakes.size(); i++) {
+                        if (toSearch.contains(earthquakes.get(i).getDate())) {
+                            ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Exact);
+                            results.add(rq);
+                        }
+                    }
                     break;
 
                 default:
-                    Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Invalid search type!", 3000);
-                    sb.show();
+
             }
+
+            if (results.size() != 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    results.sort(Comparator.comparing(ResultQuake::getResemblance));
+                }
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("resultQuakes", results);
+                SearchFragment sFrag = new SearchFragment();
+                sFrag.setArguments(bundle);
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.searchPlaceholder, sFrag);
+                ft.commit();
+            } else {
+                Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "No results!", 3000);
+                sb.show();
+            }
+
+
         } else {
             Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Enter search parameters!", 3000);
             sb.show();
         }
-
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.searchPlaceholder, new SearchFragment());
-        ft.commit();
     }
 
     // FOR GETTING DATA FROM SOURCE

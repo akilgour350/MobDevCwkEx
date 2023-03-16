@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ResultQuakeAdapter extends RecyclerView.Adapter<ResultQuakeViewHolder> {
@@ -36,6 +37,13 @@ public class ResultQuakeAdapter extends RecyclerView.Adapter<ResultQuakeViewHold
         holder.quakeDate.setText(quakes.get(position).getQuake().getDate());
         holder.quakeLocality.setText(quakes.get(position).getQuake().getLocality());
         holder.quakeRegion.setText(quakes.get(position).getQuake().getRegion());
+        holder.moreInfoBtn.setId(position);
+        holder.moreInfoBtn.setOnClickListener(v -> { // creates the buttons listener
+            ResultQuake e = quakes.get(v.getId()); // gets the ResultQuake this button is attributed with
+            Intent moreInfo = new Intent(v.getContext(), MoreInfo.class);
+            moreInfo.putExtra("selectedQuake", (Serializable) e);
+            this.context.startActivity(moreInfo);
+        });
     }
 
     @Override
