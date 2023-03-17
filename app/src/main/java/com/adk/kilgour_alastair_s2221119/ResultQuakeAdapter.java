@@ -41,7 +41,7 @@ public class ResultQuakeAdapter extends RecyclerView.Adapter<ResultQuakeViewHold
         holder.moreInfoBtn.setOnClickListener(v -> { // creates the buttons listener
             ResultQuake e = quakes.get(v.getId()); // gets the ResultQuake this button is attributed with
             Intent moreInfo = new Intent(v.getContext(), MoreInfo.class);
-            moreInfo.putExtra("selectedQuake", (Serializable) e);
+            moreInfo.putExtra("selectedQuake", e.getQuake());
             this.context.startActivity(moreInfo);
         });
     }
