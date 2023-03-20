@@ -1,3 +1,9 @@
+/*
+Name: Alastair Kilgour
+SN: S2221119
+Programme: Computer
+*/
+
 package com.adk.kilgour_alastair_s2221119;
 
 import android.os.Parcel;
@@ -42,6 +48,11 @@ public class ResultQuake implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         System.out.println("writeToParcel called");
+    }
+
+    @Override
+    public String toString() {
+        return quake.getDate() + " - " + quake.getLocality() + ", " + quake.getRegion();
     }
 }
 

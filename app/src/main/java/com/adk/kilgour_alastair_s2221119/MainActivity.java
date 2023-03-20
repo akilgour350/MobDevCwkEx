@@ -1,17 +1,8 @@
-
-/*  Starter project for Mobile Platform Development in Semester B Session 2018/2019
-    You should use this project as the starting point for your assignment.
-    This project simply reads the data from the required URL and displays the
-    raw data in a TextField
+/*
+Name: Alastair Kilgour
+SN: S2221119
+Programme: Computer
 */
-
-//
-// Name                 _________________
-// Student ID           _________________
-// Programme of Study   _________________
-//
-
-// Update the package name to include your Student Identifier
 package com.adk.kilgour_alastair_s2221119;
 
 import android.content.Intent;
@@ -51,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
         loadData(); // calls method to get all the data for the app
 
         Spinner spn = findViewById(R.id.searchBy);

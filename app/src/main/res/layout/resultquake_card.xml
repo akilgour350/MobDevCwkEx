@@ -1,36 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/quakeDate"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/quakeLocality"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/quakeRegion"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-    </TextView>
-
-    <Button
-        android:id="@+id/moreInfo"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:text="More Info">
-
-    </Button>
-
-</LinearLayout>
+<!--
+Name: Alastair Kilgour
+SN: S2221119
+Programme: Computing
+-->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quake_label"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_weight="1"
+    />

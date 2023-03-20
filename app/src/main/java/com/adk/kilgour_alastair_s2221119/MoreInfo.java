@@ -1,3 +1,9 @@
+/*
+Name: Alastair Kilgour
+SN: S2221119
+Programme: Computer
+*/
+
 package com.adk.kilgour_alastair_s2221119;
 
 import android.content.Intent;
@@ -24,6 +30,7 @@ public class MoreInfo extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_info);
+        getSupportActionBar().hide();
 
         // gets info on selected quake
         Intent i = getIntent();
@@ -95,10 +102,8 @@ public class MoreInfo extends AppCompatActivity implements OnMapReadyCallback {
                 .title(quake.getDate() + " " + quake.getTime()));
 
         CameraUpdate center=
-                CameraUpdateFactory.newLatLng(new LatLng(Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude())));
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(5);
+                CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude())), 5);
 
         googleMap.moveCamera(center);
-        googleMap.animateCamera(zoom);
     }
 }

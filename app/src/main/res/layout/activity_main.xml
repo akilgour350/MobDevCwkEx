@@ -1,5 +1,11 @@
+<!--
+Name: Alastair Kilgour
+SN: S2221119
+Programme: Computing
+-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/actMainLayout"
+    android:background="@color/dark_grey"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
