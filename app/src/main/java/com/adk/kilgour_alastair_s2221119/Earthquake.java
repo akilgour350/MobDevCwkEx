@@ -14,22 +14,26 @@ public class Earthquake implements Serializable {
     private String Time;
     private String Latitude;
     private String Longitude;
-    private int Distance;
     private String Locality;
     private String Region;
     private String Depth;
     private String Magnitude;
+    private int Distance;
+    private int Bearing;
 
+    // GETTERS
     public String getDate() { return this.Date; }
     public String getTime() { return this.Time; }
     public String getLatitude() { return this.Latitude; }
     public String getLongitude() { return this.Longitude; }
-    public int getDistance() { return this.Distance; }
     public String getLocality() { return this.Locality; }
     public String getRegion() { return this.Region; }
     public String getDepth() { return this.Depth; }
     public String getMagnitude() { return this.Magnitude; }
+    public int getDistance() { return this.Distance; }
+    public int getBearing() { return Bearing; }
 
+    // SETTERS
     public void setLocationRegion(String title) {
         // getting information to set earthquakes location name from Title
         String[] split = title.split(":");
@@ -91,6 +95,7 @@ public class Earthquake implements Serializable {
     public void setLatitude(String latitude) { this.Latitude = latitude; }
     public void setLongitude(String longitude) {this.Longitude = longitude; }
     public void setDistance(int distance) { this.Distance = distance; }
+    public void setBearing(int bearing) { Bearing = bearing; }
 }
 
 

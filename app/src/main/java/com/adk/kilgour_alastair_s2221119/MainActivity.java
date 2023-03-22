@@ -9,12 +9,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -44,11 +47,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         loadData(); // calls method to get all the data for the app
+        initInterface();
 
-        Spinner spn = findViewById(R.id.searchBy);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getApplicationContext(), R.array.search_by_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spn.setAdapter(adapter);
+
     }
 
     public void searchForInput(View v) {
@@ -110,6 +111,23 @@ public class MainActivity extends AppCompatActivity
             Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Enter search parameters!", 3000);
             sb.show();
         }
+    }
+
+    // FOR SETTING UP THE MAIN ACTIVITY GUI
+    private void initInterface() {
+        // sets layout and items in searchBy spinner
+        Spinner spn = findViewById(R.id.searchBy);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getApplicationContext(), R.array.search_by_array, R.layout.spinner_layout);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spn.setAdapter(adapter);
+
+        EditText et = findViewById(R.id.searchInput);
+        et.setOnEditorActionListener((v, actionId, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                searchForInput(et);
+            }
+            return false;
+        });
     }
 
     // FOR GETTING DATA FROM SOURCE

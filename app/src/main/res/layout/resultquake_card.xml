@@ -8,6 +8,7 @@ Programme: Computing
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/quake_label"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:layout_weight="1"
-    />
+    android:textSize="20dp"
+    android:padding="10dp"/>

@@ -52,7 +52,7 @@ public class ResultQuake implements Parcelable, Serializable {
 
     @Override
     public String toString() {
-        return quake.getDate() + " - " + quake.getLocality() + ", " + quake.getRegion();
+        return quake.getDate() + " @" + quake.getTime() + "\n" + quake.getLocality() + ", " + quake.getRegion();
     }
 }
 

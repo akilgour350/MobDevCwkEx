@@ -6,6 +6,8 @@ Programme: Computer
 
 package com.adk.kilgour_alastair_s2221119;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -36,6 +39,60 @@ public class SearchFragment extends Fragment {
             ArrayAdapter<ResultQuake> adapter = new ArrayAdapter<>(getContext(), R.layout.resultquake_card, quakes);
             ListView quakeList = v.findViewById(R.id.search_list);
             quakeList.setAdapter(adapter);
+
+            quakeList.setOnItemClickListener((adapterView, view, i, l) -> {
+                ResultQuake rq = adapter.getItem(i);
+                Intent search = new Intent(getContext(), MoreInfo.class);
+                search.putExtra("selectedQuake", rq.getQuake());
+                startActivity(search);
+            });
+
+            for (int i = 0; i < quakes.size(); i++) {
+                switch (Integer.parseInt(quakes.get(i).getQuake().getMagnitude().substring(0, 1))) {
+                    case 0:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#00be36"));
+                        break;
+
+                    case 1:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#4daf00"));
+                        break;
+
+                    case 2:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#699f00"));
+                        break;
+
+                    case 3:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#7c8e00"));
+                        break;
+
+                    case 4:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#8a7c00"));
+                        break;
+
+                    case 5:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#946a00"));
+                        break;
+
+                    case 6:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9b5700"));
+                        break;
+
+                    case 7:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9e4200"));
+                        break;
+
+                    case 8:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9e2900"));
+                        break;
+
+                    case 9:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9b0000"));
+                        break;
+
+                    default:
+                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#333333"));
+                }
+            }
         } else {
             System.out.println("null quakes passed");
         }

@@ -3,16 +3,18 @@ Name: Alastair Kilgour
 SN: S2221119
 Programme: Computing
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/actMainLayout"
     android:background="@color/dark_grey"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/border">
 
         <EditText
             android:id="@+id/searchInput"
@@ -22,7 +24,9 @@ Programme: Computing
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:textCursorDrawable="@null"
+            android:inputType="text"/>
 
         <Spinner
             android:id="@+id/searchBy"
@@ -51,15 +55,43 @@ Programme: Computing
 
         </FrameLayout>
 
-        <TextView android:id="@+id/acknowledgement"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:orientation="vertical">
+
+        <TextView android:id="@+id/closest_label"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Contains British Geological Survey materials ©NERC 2023"
+            android:textSize="10sp"
+            android:text="Nearest earthquakes to Glasgow:"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:gravity="center"/>
+
+        <ListView
+            android:id="@+id/closest_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
 
     </LinearLayout>
-</ScrollView>
+
+
+    <TextView android:id="@+id/acknowledgement"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:text="Contains British Geological Survey materials ©NERC 2023"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
+</LinearLayout>
