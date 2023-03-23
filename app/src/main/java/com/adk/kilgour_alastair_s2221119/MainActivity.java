@@ -47,9 +47,15 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         loadData(); // calls method to get all the data for the app
-        initInterface();
+        //initInterface();
 
 
+    }
+
+    public void openBrowseQuakes(View v) {
+        Intent browse = new Intent(getApplicationContext(), BrowseQuakes.class);
+        browse.putExtra("allQuakes", earthquakes);
+        startActivity(browse);
     }
 
     public void searchForInput(View v) {

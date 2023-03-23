@@ -10,52 +10,16 @@ Programme: Computing
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/browseQuakes"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border">
-
-        <EditText
-            android:id="@+id/searchInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter search..."
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textCursorDrawable="@null"
-            android:inputType="text"/>
-
-        <Spinner
-            android:id="@+id/searchBy"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" />
-
-        <Button
-            android:id="@+id/searchQuakes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:onClick="searchForInput" />
-
-        <FrameLayout
-            android:id="@+id/searchPlaceholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </FrameLayout>
-
-    </LinearLayout>
+        android:text="Browse Earthquakes"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:onClick="openBrowseQuakes" />
 
     <LinearLayout
         android:layout_width="match_parent"

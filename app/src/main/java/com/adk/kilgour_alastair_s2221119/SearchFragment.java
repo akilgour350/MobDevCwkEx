@@ -48,49 +48,50 @@ public class SearchFragment extends Fragment {
             });
 
             for (int i = 0; i < quakes.size(); i++) {
+                View child = quakeList.getChildAt(i);
                 switch (Integer.parseInt(quakes.get(i).getQuake().getMagnitude().substring(0, 1))) {
                     case 0:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#00be36"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#00be36"));
                         break;
 
                     case 1:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#4daf00"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#4daf00"));
                         break;
 
                     case 2:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#699f00"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#699f00"));
                         break;
 
                     case 3:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#7c8e00"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#7c8e00"));
                         break;
 
                     case 4:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#8a7c00"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#8a7c00"));
                         break;
 
                     case 5:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#946a00"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#946a00"));
                         break;
 
                     case 6:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9b5700"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9b5700"));
                         break;
 
                     case 7:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9e4200"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9e4200"));
                         break;
 
                     case 8:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9e2900"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9e2900"));
                         break;
 
                     case 9:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#9b0000"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9b0000"));
                         break;
 
                     default:
-                        quakeList.getChildAt(i).setBackgroundColor(Color.parseColor("#333333"));
+                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#333333"));
                 }
             }
         } else {
