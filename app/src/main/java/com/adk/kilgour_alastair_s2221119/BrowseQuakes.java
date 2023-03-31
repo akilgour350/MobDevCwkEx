@@ -1,5 +1,11 @@
 package com.adk.kilgour_alastair_s2221119;
 
+/*
+Name: Alastair Kilgour
+SN: S2221119
+Program: Computer
+*/
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,6 +31,7 @@ public class BrowseQuakes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_quakes);
+        getSupportActionBar().hide();
 
         earthquakes = new ArrayList<>();
         Intent intent = getIntent();
@@ -93,7 +100,7 @@ public class BrowseQuakes extends AppCompatActivity {
                 case "Date":
                     System.out.println("Searching by date");
                     for (int i = 0; i < earthquakes.size(); i++) {
-                        if (toSearch.contains(earthquakes.get(i).getDate())) {
+                        if (toSearch.contains(earthquakes.get(i).getDate().toLowerCase())) {
                             ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Exact);
                             results.add(rq);
                         }

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+Name: Alastair Kilgour
+SN: S2221119
+Program: Computing
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/browseLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_grey"
     tools:context=".BrowseQuakes">
 
     <LinearLayout
@@ -21,8 +27,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/off_white"
             android:textCursorDrawable="@null"
-            android:inputType="text"/>
+            android:inputType="text" />
 
         <Spinner
             android:id="@+id/searchBy"
@@ -53,4 +60,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

@@ -1,22 +1,34 @@
 /*
 Name: Alastair Kilgour
 SN: S2221119
-Programme: Computer
+Program: Computer
 */
 package com.adk.kilgour_alastair_s2221119;
 
+import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.SpannableStringBuilder;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +51,7 @@ import java.util.Comparator;
 public class MainActivity extends AppCompatActivity
 {
     private ArrayList<Earthquake> earthquakes;
+    private ArrayList<TagQuake> interestingQuakes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,9 +60,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         loadData(); // calls method to get all the data for the app
-        //initInterface();
-
-
     }
 
     public void openBrowseQuakes(View v) {
@@ -58,90 +68,106 @@ public class MainActivity extends AppCompatActivity
         startActivity(browse);
     }
 
-    public void searchForInput(View v) {
-        ArrayList<ResultQuake> results = new ArrayList<>();
-        EditText input = findViewById(R.id.searchInput);
-        String toSearch = input.getText().toString().toLowerCase();
+    public void loadInterestingQuakes() {
+        interestingQuakes = new ArrayList<>();
+        Earthquake nearestNorth = null, nearestEast = null, nearestSouth = null, nearestWest = null;
+        Earthquake deepest = earthquakes.get(0), shallowest = earthquakes.get(0), biggest = earthquakes.get(0), smallest = earthquakes.get(0);
 
-        if (toSearch != "" && toSearch != null) {
-            Spinner spn = findViewById(R.id.searchBy);
-            String searchBy = spn.getSelectedItem().toString();
+        for (int i = 0; i < earthquakes.size(); i++) {
+            Earthquake current = earthquakes.get(i);
 
-            switch (searchBy) {
-                case "Locality / Region":
-                    for (int i = 0; i < earthquakes.size(); i++) {
-                        if (toSearch.contains(earthquakes.get(i).getLocality().toLowerCase()) && toSearch.contains(earthquakes.get(i).getRegion().toLowerCase())) {
-                            ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Exact);
-                            results.add(rq);
-                        } else if (toSearch.contains(earthquakes.get(i).getLocality().toLowerCase()) || toSearch.contains(earthquakes.get(i).getRegion().toLowerCase())) {
-                            ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Near);
-                            results.add(rq);
-                        }
-                    }
-
-                    break;
-
-                case "Date":
-                    System.out.println("Searching by date");
-                    for (int i = 0; i < earthquakes.size(); i++) {
-                        if (toSearch.contains(earthquakes.get(i).getDate())) {
-                            ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Exact);
-                            results.add(rq);
-                        }
-                    }
-                    break;
-
-                default:
-
-            }
-
-            if (results.size() != 0) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    results.sort(Comparator.comparing(ResultQuake::getResemblance));
+            if (current.getBearing() >= 315 && current.getBearing() < 45) {
+                if (nearestNorth == null || nearestNorth.getDistance() > current.getDistance()) {
+                    nearestNorth = current;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("resultQuakes", results);
-                SearchFragment sFrag = new SearchFragment();
-                sFrag.setArguments(bundle);
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.searchPlaceholder, sFrag);
-                ft.commit();
-            } else {
-                Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "No results!", 3000);
-                sb.show();
+            } else if (current.getBearing() >= 45 && current.getBearing() < 135) {
+                if (nearestEast == null || nearestEast.getDistance() > current.getDistance()) {
+                    nearestEast = current;
+                }
+            } else if (current.getBearing() >= 135 && current.getBearing() < 225) {
+                if (nearestSouth == null || nearestSouth.getDistance() > current.getDistance()){
+                    nearestSouth = current;
+                }
+            } else if (current.getBearing() >= 225 && current.getBearing() < 315) {
+                if (nearestWest == null || nearestWest.getDistance() > current.getDistance()) {
+                    nearestWest = current;
+                }
             }
 
+            if (current.getDepth() > deepest.getDepth()) {
+                deepest = current;
+            } else if (current.getDepth() < shallowest.getDepth()) {
+                shallowest = current;
+            }
 
-        } else {
-            Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Enter search parameters!", 3000);
-            sb.show();
+            if (Double.parseDouble(current.getMagnitude()) > Double.parseDouble(biggest.getMagnitude())) {
+                biggest = current;
+            } else if (Double.parseDouble(current.getMagnitude()) < Double.parseDouble(smallest.getMagnitude())) {
+                smallest = current;
+            }
         }
+
+        if (nearestNorth != null) {
+            TagQuake tagQuake = new TagQuake(nearestNorth, "nearest north of glasgow");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (nearestEast != null) {
+            TagQuake tagQuake = new TagQuake(nearestEast, "nearest east of glasgow");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (nearestSouth != null) {
+            TagQuake tagQuake = new TagQuake(nearestSouth, "nearest south of glasgow");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (nearestWest != null) {
+            TagQuake tagQuake = new TagQuake(nearestWest, "nearest west of glasgow");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (deepest != null) {
+            TagQuake tagQuake = new TagQuake(deepest, "deepest earthquake");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (shallowest != null) {
+            TagQuake tagQuake = new TagQuake(shallowest, "shallowest earthquake");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (biggest != null) {
+            TagQuake tagQuake = new TagQuake(biggest, "biggest earthquake");
+            interestingQuakes.add(tagQuake);
+        }
+
+        if (smallest != null) {
+            TagQuake tagQuake = new TagQuake(smallest, "smallest earthquake");
+            interestingQuakes.add(tagQuake);
+        }
+
+        ListView lv = findViewById(R.id.interestingQuakes);
+        ArrayAdapter<TagQuake> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.listview_layout, interestingQuakes);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener((adapterView, view, i, l) -> {
+            TagQuake tagQuake = (TagQuake) adapterView.getItemAtPosition(i);
+            Intent moreInfo = new Intent(getApplicationContext(), MoreInfo.class);
+            moreInfo.putExtra("selectedQuake", tagQuake.earthquake);
+            startActivity(moreInfo);
+        });
     }
 
-    // FOR SETTING UP THE MAIN ACTIVITY GUI
-    private void initInterface() {
-        // sets layout and items in searchBy spinner
-        Spinner spn = findViewById(R.id.searchBy);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getApplicationContext(), R.array.search_by_array, R.layout.spinner_layout);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spn.setAdapter(adapter);
-
-        EditText et = findViewById(R.id.searchInput);
-        et.setOnEditorActionListener((v, actionId, event) -> {
-            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                searchForInput(et);
-            }
-            return false;
-        });
+    public void refreshData(View v) {
+        earthquakes.removeAll(earthquakes);
+        loadData();
     }
 
     // FOR GETTING DATA FROM SOURCE
     public void loadData()
     {
-        final String URL_SOURCE ="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
         // Run network access on a separate thread;
-        new Thread(new Task(URL_SOURCE)).start();
+        new Thread(new Task("http://quakes.bgs.ac.uk/feeds/MhSeismology.xml")).start();
     }
     private class Task implements Runnable
     {
@@ -219,6 +245,8 @@ public class MainActivity extends AppCompatActivity
                                 float[] tempDist = new float[3];
                                 android.location.Location.distanceBetween(Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude()), 55.8642, 4.2518, tempDist);
                                 quake.setDistance((int)tempDist[0]);
+                                quake.setBearing(calculateBearing(55.8642, 4.2518, Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude())));
+
                                 earthquakes.add(quake); // adds complete Earthquake object to ArrayList
                                 building = false; // sets that an Earthquake object is NOT being built
                                 System.out.println("Created earthquake: ");
@@ -228,7 +256,9 @@ public class MainActivity extends AppCompatActivity
                         }
                         eventType = xpp.next(); // moves to next event
                     }
-                    System.out.println("Data parsed");
+                    Snackbar sb = Snackbar.make(findViewById(R.id.actMainLayout), "Data loaded successfully!", 3000);
+                    sb.show();
+                    loadInterestingQuakes();
                 } else {
                     throw new Exception("Result was empty.");
                 }
@@ -241,5 +271,25 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+    }
+
+    // credits for this code and maths: https://stackoverflow.com/questions/4308262/calculate-compass-bearing-heading-to-location-in-android
+    public int calculateBearing(double startLatitude, double startLongitude, double endLatitude, double endLongitude){
+        Location startLoc = new Location("");
+        startLoc.setLatitude(startLatitude);
+        startLoc.setLongitude((startLongitude));
+
+        Location destination = new Location("");
+        destination.setLatitude(endLatitude);
+        destination.setLongitude(endLongitude);
+
+        int bearing = (int) startLoc.bearingTo(destination);
+
+        if (bearing < 0)
+        {
+            bearing = bearing + 360;
+        }
+
+        return bearing;
     }
 }

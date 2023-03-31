@@ -1,7 +1,7 @@
 /*
 Name: Alastair Kilgour
 SN: S2221119
-Programme: Computer
+Program: Computer
 */
 
 package com.adk.kilgour_alastair_s2221119;

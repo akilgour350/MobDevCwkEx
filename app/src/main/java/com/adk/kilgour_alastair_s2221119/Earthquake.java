@@ -1,7 +1,7 @@
 /*
 Name: Alastair Kilgour
 SN: S2221119
-Programme: Computer
+Program: Computer
 */
 
 
@@ -16,7 +16,7 @@ public class Earthquake implements Serializable {
     private String Longitude;
     private String Locality;
     private String Region;
-    private String Depth;
+    private int Depth;
     private String Magnitude;
     private int Distance;
     private int Bearing;
@@ -28,7 +28,7 @@ public class Earthquake implements Serializable {
     public String getLongitude() { return this.Longitude; }
     public String getLocality() { return this.Locality; }
     public String getRegion() { return this.Region; }
-    public String getDepth() { return this.Depth; }
+    public int getDepth() { return this.Depth; }
     public String getMagnitude() { return this.Magnitude; }
     public int getDistance() { return this.Distance; }
     public int getBearing() { return Bearing; }
@@ -80,10 +80,14 @@ public class Earthquake implements Serializable {
         String depth, magnitude;
 
         for (int i = 0; i < splitDesc.length; i++) {
-            if (splitDesc[i].contains("Depth: "))
-                this.Depth = splitDesc[i].replace("Depth: ", "").trim();
-            else if (splitDesc[i].contains("Magnitude: "))
+            if (splitDesc[i].contains("Depth: ")) {
+                String depthString = "";
+                depthString = splitDesc[i].replace("Depth: ", "").trim();
+                depthString = depthString.substring(0, depthString.indexOf(' '));
+                this.Depth = Integer.parseInt(depthString);
+            } else if (splitDesc[i].contains("Magnitude: ")) {
                 this.Magnitude = splitDesc[i].replace("Magnitude: ", "").trim();
+            }
         }
     }
     public void setDate(String date) {

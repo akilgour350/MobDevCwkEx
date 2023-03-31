@@ -2,7 +2,7 @@
 <!--
 Name: Alastair Kilgour
 SN: S2221119
-Programme: Computing
+Program: Computing
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,230 +11,32 @@ Programme: Computing
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:configChanges="orientation|keyboardHidden"
+    android:background="@color/dark_grey"
     tools:context=".MoreInfo"
     tools:layout_editor_absoluteX="90dp"
-    tools:layout_editor_absoluteY="0dp">
+    tools:layout_editor_absoluteY="0dp"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:id="@+id/moreInfoTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </TableLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/valMIRegion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="reg goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMIRegion"
-            app:layout_constraintTop_toBottomOf="@+id/valMILocality" />
-
-        <TextView
-            android:id="@+id/lblMIRegion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:text="Region:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMILocality" />
-
-        <TextView
-            android:id="@+id/lblMIMagnitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:text="Magnitude:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMIDepth" />
-
-        <TextView
-            android:id="@+id/lblMILocality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="25dp"
-            android:text="Locality:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMIMagnitude" />
-
-        <TextView
-            android:id="@+id/lblMILatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:text="Latitude:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMIRegion" />
-
-        <TextView
-            android:id="@+id/valMILatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="lat goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMILatitude"
-            app:layout_constraintTop_toBottomOf="@+id/valMIRegion" />
-
-        <TextView
-            android:id="@+id/valMILongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="long goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMILongitude"
-            app:layout_constraintTop_toBottomOf="@+id/valMILatitude" />
-
-        <TextView
-            android:id="@+id/lblMILongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:text="Longitude:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMILatitude" />
-
-        <TextView
-            android:id="@+id/lblMIDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="25dp"
-            android:text="Date:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/lblMIDepth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="25dp"
-            android:text="Depth:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMITime" />
-
-        <TextView
-            android:id="@+id/lblMITime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
-            android:text="Time:"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblMIDate" />
-
-        <TextView
-            android:id="@+id/valMIDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="25dp"
-            android:text="date goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMIDate"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/valMITime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="time goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMITime"
-            app:layout_constraintTop_toBottomOf="@+id/valMIDate" />
-
-        <TextView
-            android:id="@+id/valMIDepth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="25dp"
-            android:text="depth goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMIDepth"
-            app:layout_constraintTop_toBottomOf="@+id/valMITime" />
-
-        <TextView
-            android:id="@+id/valMIMagnitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="mag goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMIMagnitude"
-            app:layout_constraintTop_toBottomOf="@+id/valMIDepth" />
-
-        <TextView
-            android:id="@+id/valMILocality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="25dp"
-            android:text="local goes here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@+id/lblMILocality"
-            app:layout_constraintTop_toBottomOf="@+id/valMIMagnitude" />
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mIMapView"
-            android:layout_width="376dp"
-            android:layout_height="389dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/valMILongitude" />
-
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <fragment
             android:id="@+id/map"
-            android:layout_width="376dp"
-            android:layout_height="389dp"
-            android:layout_marginStart="20dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/valMILongitude"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </LinearLayout>

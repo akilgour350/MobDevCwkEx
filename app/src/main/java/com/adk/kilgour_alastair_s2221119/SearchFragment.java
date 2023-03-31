@@ -1,13 +1,14 @@
 /*
 Name: Alastair Kilgour
 SN: S2221119
-Programme: Computer
+Program: Computer
 */
 
 package com.adk.kilgour_alastair_s2221119;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -35,64 +39,78 @@ public class SearchFragment extends Fragment {
         if (getArguments() != null) {
             Bundle extras = getArguments();
             quakes = extras.getParcelableArrayList("resultQuakes");
-
-            ArrayAdapter<ResultQuake> adapter = new ArrayAdapter<>(getContext(), R.layout.resultquake_card, quakes);
-            ListView quakeList = v.findViewById(R.id.search_list);
-            quakeList.setAdapter(adapter);
-
-            quakeList.setOnItemClickListener((adapterView, view, i, l) -> {
-                ResultQuake rq = adapter.getItem(i);
-                Intent search = new Intent(getContext(), MoreInfo.class);
-                search.putExtra("selectedQuake", rq.getQuake());
-                startActivity(search);
-            });
+            TableLayout table = v.findViewById(R.id.search_table); // get the TableLayout object
 
             for (int i = 0; i < quakes.size(); i++) {
-                View child = quakeList.getChildAt(i);
+                TableRow row = new TableRow(getContext());
+                Earthquake eq = quakes.get(i).getQuake();
+                row.setId(i);
+
+                TextView txt = new TextView(getContext());
+                txt.setTextSize(20);
+                if (!eq.getLocality().equals("No Locality")) {
+                    txt.setText(eq.getDate() + " @" + eq.getTime() + "\n" + eq.getLocality() + ", " + eq.getRegion());
+                } else {
+                    txt.setText(eq.getDate() + " @" + eq.getTime() + "\n" + eq.getRegion());
+                }
+
+                row.addView(txt);
+                row.setOnClickListener(view -> {
+                    Earthquake quake = quakes.get(row.getId()).getQuake();
+                    Intent intent = new Intent(getContext(), MoreInfo.class);
+                    intent.putExtra("selectedQuake", quake);
+                    startActivity(intent);
+                });
+
                 switch (Integer.parseInt(quakes.get(i).getQuake().getMagnitude().substring(0, 1))) {
                     case 0:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#00be36"));
+                        row.setBackgroundColor(Color.parseColor("#009512"));
                         break;
 
                     case 1:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#4daf00"));
+                        row.setBackgroundColor(Color.parseColor("#3e8e00"));
                         break;
 
                     case 2:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#699f00"));
+                        row.setBackgroundColor(Color.parseColor("#5a8700"));
                         break;
 
                     case 3:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#7c8e00"));
+                        row.setBackgroundColor(Color.parseColor("#717e00"));
                         break;
 
                     case 4:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#8a7c00"));
+                        row.setBackgroundColor(Color.parseColor("#857400"));
                         break;
 
                     case 5:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#946a00"));
+                        row.setBackgroundColor(Color.parseColor("#976800"));
                         break;
 
                     case 6:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9b5700"));
+                        row.setBackgroundColor(Color.parseColor("#a75a00"));
                         break;
 
                     case 7:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9e4200"));
+                        row.setBackgroundColor(Color.parseColor("#b64900"));
                         break;
 
                     case 8:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9e2900"));
+                        row.setBackgroundColor(Color.parseColor("#c23200"));
                         break;
 
                     case 9:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#9b0000"));
+                        row.setBackgroundColor(Color.parseColor("#cc0000"));
                         break;
 
                     default:
-                        child.findViewById(R.id.quake_label).setBackgroundColor(Color.parseColor("#333333"));
+                        row.setBackgroundColor(Color.parseColor("#2c2c2c"));
                 }
+
+                row.setPadding(20, 20, 20, 20);
+                row.setGravity(1);
+
+                table.addView(row);
             }
         } else {
             System.out.println("null quakes passed");
