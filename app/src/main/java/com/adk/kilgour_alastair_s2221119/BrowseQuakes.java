@@ -100,15 +100,12 @@ public class BrowseQuakes extends AppCompatActivity {
                 case "Date":
                     System.out.println("Searching by date");
                     for (int i = 0; i < earthquakes.size(); i++) {
-                        if (toSearch.contains(earthquakes.get(i).getDate().toLowerCase())) {
+                        if (earthquakes.get(i).getDate().toLowerCase().contains(toSearch.toLowerCase())) {
                             ResultQuake rq = new ResultQuake(earthquakes.get(i), Resemblance.Exact);
                             results.add(rq);
                         }
                     }
                     break;
-
-                default:
-
             }
 
             if (results.size() != 0) {

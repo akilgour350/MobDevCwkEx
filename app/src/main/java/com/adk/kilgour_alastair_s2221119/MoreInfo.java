@@ -39,6 +39,7 @@ public class MoreInfo extends AppCompatActivity implements OnMapReadyCallback {
         // gets info on selected quake
         Intent i = getIntent();
         quake = (Earthquake) i.getSerializableExtra("selectedQuake");
+        i.getParcelableArrayListExtra("namehere");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         loadData();

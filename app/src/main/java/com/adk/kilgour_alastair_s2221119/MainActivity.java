@@ -50,6 +50,7 @@ import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity
 {
+
     private ArrayList<Earthquake> earthquakes;
     private ArrayList<TagQuake> interestingQuakes;
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < earthquakes.size(); i++) {
             Earthquake current = earthquakes.get(i);
 
-            if (current.getBearing() >= 315 && current.getBearing() < 45) {
+            if (current.getBearing() >= 315 || current.getBearing() < 45) {
                 if (nearestNorth == null || nearestNorth.getDistance() > current.getDistance()) {
                     nearestNorth = current;
                 }
@@ -245,7 +246,7 @@ public class MainActivity extends AppCompatActivity
                                 float[] tempDist = new float[3];
                                 android.location.Location.distanceBetween(Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude()), 55.8642, 4.2518, tempDist);
                                 quake.setDistance((int)tempDist[0]);
-                                quake.setBearing(calculateBearing(55.8642, 4.2518, Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude())));
+                                quake.setBearing(calculateBearing(55.8642, -4.2518, Double.parseDouble(quake.getLatitude()), Double.parseDouble(quake.getLongitude())));
 
                                 earthquakes.add(quake); // adds complete Earthquake object to ArrayList
                                 building = false; // sets that an Earthquake object is NOT being built
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity
     public int calculateBearing(double startLatitude, double startLongitude, double endLatitude, double endLongitude){
         Location startLoc = new Location("");
         startLoc.setLatitude(startLatitude);
-        startLoc.setLongitude((startLongitude));
+        startLoc.setLongitude(startLongitude);
 
         Location destination = new Location("");
         destination.setLatitude(endLatitude);
@@ -289,7 +290,7 @@ public class MainActivity extends AppCompatActivity
         {
             bearing = bearing + 360;
         }
-
+        System.out.println("Bearing: " + bearing);
         return bearing;
     }
 }
